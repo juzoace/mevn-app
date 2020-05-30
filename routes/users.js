@@ -39,6 +39,58 @@ router.post('/login', function(req, res, next){
 
 // TODO
 router.post('/register', function(req, res, next){
+
+    
+
+    if (req.body.password === req.body.confirm_password) {
+
+
+    User.findOne({name: req.body.name})
+    .then((user) => {
+        if (user) {
+           res.json({
+                success: false,
+                msg: "Name is already takem"
+            })
+        }
+    
+    })
+    .catch(err => {
+        console.log(err);
+    })
+
+    return
+
+    User.findOne({username: req.body.username})
+    .then((user) => {
+        if (user) {
+            res.json({
+                success: false,
+                msg: "username is already taken"
+            })
+        }
+        
+    }).catch(err=> {
+        console.log(err);
+    })
+
+    return
+
+    User.findOne({email: req.body.email})
+    .then((user) => {
+        if (user) {
+            res.json({
+                success: false,
+                msg: "Email is already takem"
+            })
+        }
+        
+    }).catch(err => {
+        console.log(err);
+    })
+    
+    return
+
     const saltHash = utils.genPassword(req.body.password);
 
     const salt = saltHash.salt;
@@ -51,13 +103,23 @@ router.post('/register', function(req, res, next){
         hash: hash,
         salt: salt
     });
+
     newUser.save()
+
     .then((user) => {
 
         const jwt = utils.issueJWT(user);
 
         res.json({ success: true, user: user, token: jwt.token, expiresIn: jwt.expires})
     })
+} else {
+
+    res.json({
+            success: false,
+            msg: " Passwords don't match"  
+        })
+    }
+    
 });
 
 module.exports = router;
