@@ -9,7 +9,7 @@
                   <h4>Register</h4>
               </div>
               <div class="card-body">
-                  <form>
+                  <form @submit.prevent="registerUser">
                     <div class="form-group">
                     <label for="name">Name</label>
                     <input 
@@ -50,14 +50,26 @@
                     <label for="password">Password</label>
                     <input 
                     id="password"
-                    type="text"
-                    placeholder="password" 
+                    type="password"
+                    placeholder="Password" 
                     name="password" 
                     v-model="password" 
                     class="form-control"
                     >
                     </div>
-                    <button type="button" class="btn btn-primary">Register</button>
+
+                    <div class="form-group">
+                    <label for="password">Confirm Password</label>
+                    <input 
+                    id="confirm_password"
+                    type="password"
+                    placeholder="Confirm Password" 
+                    name="confirm_password" 
+                    v-model="confirm_password" 
+                    class="form-control"
+                    >
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <router-link to="/register" class="card-link">Need an account?</router-link>
                   </form>
@@ -68,15 +80,52 @@
 </template>
 
 <script>
-  
+
+
+
+import { mapActions } from 'vuex';
 export default {
   data() {
       return {
           name: "",
           username: "",
           email: "",
-          password: ""
+          password: "",
+          confirm_password: ""
+      };
+  },
+  methods: {
+      ...mapActions(['register']),
+      registerUser() {
+          console.log('Hey')
+          let user = {
+              name: this.name,
+              username: this.username,
+              email: this.email,
+              password: this.password,
+              confirm_password: this.confirm_password
+          }
+          this.register(user).then(res => {
+              if(res.data.success) {
+                  this.$router.push("login");
+              }
+          });
       }
   }
 };
 </script>
+
+<style>
+
+.card {
+    width: 60%;
+    border-radius: 0;
+}
+.btn {
+    border-radius: 0;
+}
+.form-control {
+    border-radius: 0;
+}
+
+</style>
