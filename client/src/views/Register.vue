@@ -69,6 +69,8 @@
                     class="form-control"
                     >
                     </div>
+
+
                     <button type="submit" class="btn btn-primary">Register</button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <router-link to="/register" class="card-link">Need an account?</router-link>

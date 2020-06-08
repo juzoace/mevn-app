@@ -8,7 +8,7 @@ const passport = require('passport');
 // Initialize the app 
 const app = express();
 
-const db = 'mongodb://localhost:27017/Mevn-app';
+const db = 'mongodb+srv://Uzochukwu:juzoboss98@application-j1cdp.azure.mongodb.net/test?retryWrites=true&w=majority';
 mongoose.connect(db, { useNewUrlParser: true }).then(() => {
     console.log(`Database connected successfully ${db}`)
 }).catch(err => { 
@@ -39,6 +39,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Bring in the Users route
 app.use(require('./routes'));
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+})
 
 const PORT = process.env.PORT || 5000;
 

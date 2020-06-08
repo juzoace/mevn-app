@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 client/node_modules/
 .env
 id_rsa_priv.pem
